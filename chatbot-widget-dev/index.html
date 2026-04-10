@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BeatConnect</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module">
+    import '/widget-src/main.js';
+    
+    // Initialize the widget for local development testing
+    window.BeatConnectWidget.init({
+      chatbotLogo: '',
+      defaultAvatar: '',
+      welcomeMessage: 'Welcome to BeatConnect! What\'s on your mind? 🎧',
+      stream: true,
+      model: 'llava',
+      chatEndpoint: 'http://localhost:3000/api/chat',
+    });
+  </script>
+</body>
+
+</html>

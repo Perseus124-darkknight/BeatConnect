@@ -1,0 +1,13 @@
+{
+  "name": "chatbot-widget",
+  "version": "1.0.0",
+  "description": "A simple AI-powered chatbot widget",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "openai": "^4.4.0"
+  }
+}
