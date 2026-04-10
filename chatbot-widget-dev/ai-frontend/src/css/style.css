@@ -900,6 +900,140 @@ a {
   }
 }
 
+@keyframes pulseLight {
+  0%, 100% { opacity: 0.5; transform: scaleX(1); }
+  50% { opacity: 0.9; transform: scaleX(1.05); }
+}
+
+.animate-pulse-light {
+  animation: pulseLight 4s ease-in-out infinite;
+}
+
+/* ── Scroll Reveal System (Premium 3D version) ── */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(80px) rotateX(-15deg) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) rotateX(0) scale(1); }
+}
+@keyframes revealLeft {
+  from { opacity: 0; transform: translateX(-80px) rotateY(-15deg) scale(0.95); }
+  to   { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
+}
+@keyframes revealRight {
+  from { opacity: 0; transform: translateX(80px) rotateY(15deg) scale(0.95); }
+  to   { opacity: 1; transform: translateX(0) rotateY(0) scale(1); }
+}
+@keyframes revealScale {
+  from { opacity: 0; transform: scale(0.85) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes floatingAmbient {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(30px, -40px) scale(1.1); }
+  66% { transform: translate(-20px, 30px) scale(0.9); }
+}
+@keyframes shimmerSweep {
+  0% { transform: translateX(-150%) skewX(-25deg); }
+  100% { transform: translateX(150%) skewX(-25deg); }
+}
+
+.ambient-float {
+  animation: floatingAmbient 15s ease-in-out infinite alternate;
+}
+
+.shimmer-trigger {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-trigger::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 50%; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent);
+  transform: translateX(-150%) skewX(-25deg);
+  pointer-events: none;
+  z-index: 50;
+}
+.shimmer-trigger.is-visible::after {
+  animation: shimmerSweep 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Elements start invisible; JS adds .is-visible to trigger animation */
+[data-reveal] {
+  opacity: 0;
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+[data-reveal="up"]    { transform: translateY(80px) rotateX(-15deg) scale(0.95); }
+[data-reveal="left"]  { transform: translateX(-80px) rotateY(-15deg) scale(0.95); }
+[data-reveal="right"] { transform: translateX(80px) rotateY(15deg) scale(0.95); }
+[data-reveal="scale"] { transform: scale(0.85) translateY(20px); }
+
+[data-reveal].is-visible {
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-duration: 1.4s;
+}
+[data-reveal="up"].is-visible    { animation-name: revealUp; }
+[data-reveal="left"].is-visible  { animation-name: revealLeft; }
+[data-reveal="right"].is-visible { animation-name: revealRight; }
+[data-reveal="scale"].is-visible { animation-name: revealScale; }
+
+/* Stagger delays for grid children */
+[data-reveal-delay="100"] { animation-delay: 0.1s !important; }
+[data-reveal-delay="200"] { animation-delay: 0.2s !important; }
+[data-reveal-delay="300"] { animation-delay: 0.3s !important; }
+[data-reveal-delay="400"] { animation-delay: 0.4s !important; }
+[data-reveal-delay="500"] { animation-delay: 0.5s !important; }
+[data-reveal-delay="600"] { animation-delay: 0.6s !important; }
+[data-reveal-delay="700"] { animation-delay: 0.7s !important; }
+[data-reveal-delay="800"] { animation-delay: 0.8s !important; }
+
+/* ── Parallax Layer ── */
+.parallax-bg {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* ── Mobile Responsiveness ── */
+@media (max-width: 640px) {
+  /* Artist page: stack columns */
+  .lg\:grid-cols-2 { grid-template-columns: 1fr !important; }
+
+  /* Shrink giant hero text on very small screens */
+  h1[style*="backgroundImage"] {
+    font-size: clamp(2.5rem, 14vw, 6rem) !important;
+  }
+
+  /* Jukebox: fit inside small screen */
+  .xl\:grid-cols-\[3fr_2fr\] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Disable sticky jukebox on mobile */
+  .sticky { position: relative !important; top: auto !important; }
+
+  /* Tighter padding on mobile */
+  .px-10 { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+  .md\:px-20 { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+}
+
+/* ── Hide chatbot on landing ── */
+body.is-landing-page #chatbot-widget-host {
+  display: none !important;
+}
+
+/* ── Hero Pulse ── */
+@keyframes pulse-glow {
+  0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4); }
+  70% { box-shadow: 0 0 0 20px rgba(236, 72, 153, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
+}
+
+.btn-pulse {
+  animation: pulse-glow 2s infinite;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero h1 {
@@ -1279,7 +1413,90 @@ a {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(236, 72, 153, 0.1);
 }
 
-/* Utilities */
-.d-none {
-  display: none !important;
+/* Chatbot Custom Animations */
+@keyframes chatbotPopIn {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.3) translateY(100px) rotate(-10deg); 
+    filter: blur(20px); 
+  }
+  70% { 
+    transform: scale(1.05) translateY(-10px) rotate(2deg); 
+    filter: blur(0);
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0) rotate(0); 
+    filter: blur(0);
+  }
+}
+
+@keyframes chatbotPopOut {
+  0% { 
+    opacity: 1; 
+    transform: scale(1) translateY(0) rotate(0); 
+    filter: blur(0);
+  }
+  100% { 
+    opacity: 0; 
+    transform: scale(0.8) translateY(40px) rotate(5deg); 
+    filter: blur(20px); 
+  }
+}
+
+.animate-chatbot-in {
+  animation: chatbotPopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+
+@keyframes drift-slow {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  33% { transform: translateY(-3px) translateX(2px); }
+  66% { transform: translateY(2px) translateX(-4px); }
+}
+
+.animate-drift {
+  animation: drift-slow 8s ease-in-out infinite;
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+.animate-marquee-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-reverse 60s linear infinite;
+}
+
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
+
+@keyframes fadeInFast {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+  from { 
+    opacity: 0; 
+    transform: scale(0.95) translateY(20px); 
+    filter: blur(10px);
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1) translateY(0); 
+    filter: blur(0);
+  }
+}
+
+.animate-fadeInFast {
+  animation: fadeInFast 0.3s ease-out forwards;
+}
+
+.animate-modalSlideIn {
+  animation: modalSlideIn 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }

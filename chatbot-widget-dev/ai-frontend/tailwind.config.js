@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
@@ -7,35 +6,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: '#ec4899', // pink-500
-          foreground: '#ffffff'
-        },
-        secondary: {
-          DEFAULT: '#06b6d4', // cyan-500
-          foreground: '#ffffff'
-        },
-        bg: {
-          dark: '#05050a',
-        },
-        muted: {
-          DEFAULT: '#a1a1aa',
-        }
-      },
-      backgroundColor: {
-        glass: 'rgba(255, 255, 255, 0.03)',
-      },
-      borderColor: {
-        glass: 'rgba(255, 255, 255, 0.1)',
+        primary: '#ec4899',   // Match legacy pink
+        secondary: '#06b6d4', // Match cyan accent
       },
       fontFamily: {
-        mono: ['"JetBrains Mono"', 'monospace'],
-        display: ['"Bebas Neue"', 'cursive'],
-        sans: ['Outfit', 'sans-serif'],
+        main: ['Outfit', 'sans-serif'],
+        heading: ['Bebas Neue', 'cursive'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-      }
     },
   },
   plugins: [],

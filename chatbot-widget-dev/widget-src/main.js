@@ -54,6 +54,7 @@ export default class ChatbotWidget {
 
   async initialize() {
     const hostElement = document.createElement('div')
+    hostElement.id = 'chatbot-widget-host'
     hostElement.style.position = 'fixed'
     hostElement.style.zIndex = '999999'
     Object.assign(hostElement.style, this.getPosition(this.config.position))

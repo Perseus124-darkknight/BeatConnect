@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Landing from './pages/Landing';
 import Home from './pages/Home';
@@ -9,13 +9,29 @@ import Admin from './pages/Admin';
 import ToastProvider from './components/ToastProvider';
 
 const App = () => {
+
+  const location = useLocation();
+  const isLanding = location.pathname === '/';
+
   useEffect(() => {
-    // Reveal the main body (legacy global CSS fade-in)
     document.body.classList.add('loaded');
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    if (isLanding) {
+      document.body.classList.add('is-landing-page');
+    } else {
+      document.body.classList.remove('is-landing-page');
+    }
+  }, [isLanding]);
+
   return (
     <>
-      <Navbar />
+      {!isLanding && <Navbar />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
@@ -23,9 +39,11 @@ const App = () => {
         <Route path="/genre" element={<Genre />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
-      <ToastProvider />
+      {!isLanding && <ToastProvider />}
     </>
   );
 };
 
+
 export default App;
+
