@@ -1,0 +1,37 @@
+{
+  "name": "beatconnect",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "workspaces": [
+    "ai-frontend",
+    "ai-backend",
+    "ai-admin-portal",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start:db": "cd ai-backend && docker-compose up -d db",
+    "start:backend": "cd ai-backend && DB_PORT=3307 npm run dev",
+    "start:frontend": "cd ai-frontend && npm run dev",
+    "start:admin": "cd ai-admin-portal && npm run dev",
+    "dev:all": "npm run start:db && wait-on tcp:3307 && npm run start:backend & npm run start:frontend & npm run start:admin",
+    "test": "NODE_ENV=test jest --passWithNoTests"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.28.6",
+    "@babel/preset-env": "^7.29.2",
+    "@vitejs/plugin-react": "^4.7.0",
+    "babel-jest": "^30.3.0",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "jsdom": "^29.0.1",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.9",
+    "vite": "^5.4.21",
+    "wait-on": "^8.0.3"
+  }
+}

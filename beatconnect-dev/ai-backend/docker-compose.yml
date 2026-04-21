@@ -1,0 +1,58 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: beatconnect-db
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "${DB_USER}", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  ai-backend:
+    container_name: beatconnect-be
+    image: beatconnect-be
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - uploads_data:/app/public/uploads
+    command: npm run dev
+    env_file:
+      - .env
+    environment:
+      - OLLAMA_URL=http://host.docker.internal:11434/api/generate
+      - DB_HOST=db
+      - DB_PORT=3306
+      - NODE_ENV=development
+    depends_on:
+      db:
+        condition: service_healthy
+
+  ai-frontend:
+    container_name: beatconnect-fe
+    image: beatconnect-fe
+    build: ../ai-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../ai-frontend:/app
+      - /app/node_modules
+      - ../widget-src:/widget-src
+    environment:
+      - VITE_BACKEND_URL=http://localhost:3000
+    depends_on:
+      - ai-backend
+
+volumes:
+  db_data:
+  uploads_data:

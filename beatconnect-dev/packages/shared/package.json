@@ -1,0 +1,10 @@
+{
+  "name": "@beatconnect/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.5.0"
+  }
+}
