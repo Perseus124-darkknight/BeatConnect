@@ -149,7 +149,12 @@ const DailyDispatch = () => {
             }
           } catch (e) { console.error("Failed to parse JSON content:", e); }
         }
-        setReport(data);
+        if (data && data.error) {
+          console.error("Backend error:", data.error);
+          setReport(null);
+        } else {
+          setReport(data);
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -183,7 +188,7 @@ const DailyDispatch = () => {
                      <div className="w-32 h-[8px] bg-primary mb-6 relative z-10 shadow-[4px_4px_0_#fff]" />
                      
                      <div className="font-sans text-[22px] leading-[1.8] text-[#c0c0c0] font-light md:columns-2 gap-16 text-justify relative z-10">
-                       {report.front_page_content.split(/\n\n|\\n\\n/).filter(p => p.trim()).map((para, i) => (
+                       {(report.front_page_content || '').split(/\n\n|\\n\\n/).filter(p => p.trim()).map((para, i) => (
                          <p key={i} className="m-0 mb-8 break-inside-avoid">
                            {para.split(/\n|\\n/).map((line, j, arr) => (
                              <Fragment key={j}>{line}{j < arr.length - 1 && <br />}</Fragment>
@@ -205,7 +210,7 @@ const DailyDispatch = () => {
                      <div className="w-20 h-2 bg-secondary relative z-10 mt-2 hover:w-full transition-all duration-[1s]" />
                      
                      <div className="font-mono text-[15px] leading-[2.2] text-[#808080] space-y-6 text-justify relative z-10 mt-6">
-                       {report.history_content.split(/\n\n|\\n\\n/).filter(p => p.trim()).map((para, i) => (
+                       {(report.history_content || '').split(/\n\n|\\n\\n/).filter(p => p.trim()).map((para, i) => (
                          <p key={i} className="m-0">
                            {para.split(/\n|\\n/).map((line, j, arr) => (
                              <Fragment key={j}>{line}{j < arr.length - 1 && <br />}</Fragment>
